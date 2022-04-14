@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
     console.log(`server start on: http://127.0.0.1:${port}`);
-    mongoose.connect('mongodb://admin:111111@192.168.3.100:27017/qa-db');
+    mongoose.connect('mongodb://admin:111111@192.168.0.194:27017/qa-db');
     const db = mongoose.connection;
     db.once('open', () => {
         console.log('数据库已连接');

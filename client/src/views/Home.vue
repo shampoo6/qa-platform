@@ -33,7 +33,6 @@ const store = useStore();
 const menus = filterMenu(home);
 const breadcrumbs = computed(() => {
   let arr = getBreadcrumbs(route.path);
-  console.log(route);
   if (route.meta.subtitle !== undefined) {
     arr.push({
       path: route.path,
@@ -42,8 +41,6 @@ const breadcrumbs = computed(() => {
   }
   return arr;
 });
-
-console.log(breadcrumbs);
 
 const openKeys = ref([]);
 const selectedKeys = ref([]);
@@ -64,7 +61,6 @@ onMounted(() => {
 });
 
 function getBreadcrumbs(path) {
-  console.log(path);
   let result = [];
 
   let regex = /^(\/[^\/]+\/)(.+)/;
@@ -182,8 +178,8 @@ function handleMenuClick(obj) {
         </a-layout-sider>
         <a-layout-content class="h-100">
           <a-layout class="h-100 d-flex flex-column">
-            <a-layout-content class="flex-grow-1">
-              <a-card>
+            <a-layout-content class="flex-grow-1 d-flex flex-column">
+              <a-card class="flex-shrink-0">
                 <a-breadcrumb>
                   <a-breadcrumb-item><a href="javascript:" @click="$router.push('/home')">首页</a></a-breadcrumb-item>
                   <a-breadcrumb-item v-for="item in breadcrumbs" :key="item.path">
@@ -191,7 +187,9 @@ function handleMenuClick(obj) {
                   </a-breadcrumb-item>
                 </a-breadcrumb>
               </a-card>
-              <router-view></router-view>
+              <div class="flex-grow-1 overflow-auto">
+                <router-view></router-view>
+              </div>
             </a-layout-content>
             <a-layout-footer class="bg-light flex-shrink-0 text-end">&copy; 2022 shampoo6@163.com 技术支持</a-layout-footer>
           </a-layout>
