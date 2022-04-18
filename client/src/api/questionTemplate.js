@@ -7,10 +7,13 @@ export default {
     add(name) {
         return request.post('/questionTemplate/add', {name});
     },
-    update(id, name) {
-        return request.post('/questionTemplate/update', {id, name});
+    update(id, name, questions) {
+        return request.post('/questionTemplate/update', {id, name, questions});
     },
     remove(ids) {
         return request.post('/questionTemplate/remove', {ids});
+    },
+    getById(id) {
+        return request.post('/questionTemplate/getById', {id});
     }
 };

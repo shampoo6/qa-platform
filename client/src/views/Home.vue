@@ -188,7 +188,7 @@ function handleMenuClick(obj) {
                 </a-breadcrumb>
               </a-card>
               <div class="flex-grow-1 overflow-auto">
-                <router-view></router-view>
+                <router-view class="h-100"></router-view>
               </div>
             </a-layout-content>
             <a-layout-footer class="bg-light flex-shrink-0 text-end">&copy; 2022 shampoo6@163.com 技术支持</a-layout-footer>

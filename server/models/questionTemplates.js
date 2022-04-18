@@ -1,16 +1,13 @@
 const {model, Schema} = require('mongoose');
 
+// 题目和答案都没有key，使用索引充当key
 let question = {
     question: '题目',
     score: '分数',
     type: '题目类型(单选，多选)',
-    options: [
-        // 待选项
-        {
-            label: '提示文本',
-            right: '是否是正确答案'
-        }
-    ]
+    options: ['带选项'],
+    rights: ['多选题正确项索引'],
+    right: '单选的答案'
 }
 
 const schema = new Schema({
@@ -22,4 +19,4 @@ const schema = new Schema({
 });
 
 // 问卷模板表
-module.exports = model('questionTemplate', schema);
+module.exports = model('question-template', schema);

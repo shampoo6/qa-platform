@@ -24,6 +24,11 @@ const routes = [
         path: '/',
         redirect: '/home'
     },
+    {
+        path: '/qaPage/:id',
+        name: 'qaPage',
+        component: () => import('@/views/QAPage.vue')
+    }
 ];
 
 const router = createRouter({
@@ -42,7 +47,7 @@ router.beforeEach((to, from, next) => {
         store.dispatch('account/getUserInfo').then(info => {
             if (info.nickname === '') next({name: 'signIn'});
             else next();
-        })
+        });
     }
 });
 

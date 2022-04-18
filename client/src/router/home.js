@@ -14,10 +14,11 @@ export default [
                 component: () => import('@/views/My/QuestionTemplate/QuestionTemplate.vue')
             },
             {
-                path: 'questionTemplate/question',
+                path: 'questionTemplate/question/:id',
                 name: 'question',
-                meta: {subtitle: '问题管理', key: 'question'},
-                component: () => import('@/views/My/QuestionTemplate/Question/Question.vue')
+                meta: {subtitle: '编辑问题', key: 'question'},
+                // component: () => import('@/views/My/QuestionTemplate/Question/Question.vue')
+                component: () => import('@/views/My/QuestionTemplate/Question.vue')
             },
             {
                 path: 'questionTemplate/question/answer',
@@ -43,6 +44,12 @@ export default [
                 meta: {subtitle: '答题者答案'},
                 component: () => import('@/views/My/Publish/Parties/Answer/Answer.vue')
             },
+            {
+                path: 'myJoin',
+                name: 'myJoin',
+                meta: {title: '我的答题', key: 'myJoin'},
+                component: () => import('@/views/My/MyJoin/MyJoin.vue')
+            }
         ]
     },
     {

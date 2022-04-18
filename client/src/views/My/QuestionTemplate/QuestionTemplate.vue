@@ -178,7 +178,7 @@ function edit(id) {
 
               <template v-if="column.key === 'op'">
                 <a-space>
-                  <a-button type="primary">编辑问题</a-button>
+                  <a-button type="primary" @click="$router.push({name: 'question', params: {id: record._id}})">编辑问题</a-button>
                   <a-button @click="edit(record._id)">编辑</a-button>
                   <a-popconfirm
                       title="你真的要删除吗?"

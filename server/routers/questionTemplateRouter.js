@@ -3,19 +3,17 @@ const router = express.Router();
 const assert = require('assert');
 const ah = require('express-async-handler');
 const {success} = require('../utils/responseUtils.js');
+const {getToken, getCurrentAccount} = require('../utils/cookieUtils.js');
 
 const QuestionTemplate = require('../models/questionTemplates.js');
-const Account = require('../models/accounts.js');
-const Token = require('../models/tokens.js');
+const PublishQuestion = require('../models/publishQuestions.js');
 
 // 添加模板
 router.post('/add', ah(async (req, res) => {
     let {name} = req.body;
     let {token: tokenId} = req.cookies;
 
-    const token = await Token.findById(tokenId);
-    assert.ok(token, '未登录');
-    assert.ok(await Account.exists({_id: token.accountId}), '账号不存在');
+    const token = await getToken(req);
 
     let qt = new QuestionTemplate({
         name,
@@ -28,14 +26,18 @@ router.post('/add', ah(async (req, res) => {
 
 // 修改模板
 router.post('/update', ah(async (req, res) => {
-    let {id, name} = req.body;
+    let {id, name, questions} = req.body;
     let {token: tokenId} = req.cookies;
 
-    const token = await Token.findById(tokenId);
-    assert.ok(token, '未登录');
-    assert.ok(await Account.exists({_id: token.accountId}), '账号不存在');
+    const token = await getToken(req);
 
-    await QuestionTemplate.updateOne({_id: id}, {name, updatedAt: new Date()});
+    const update = {
+        name,
+        updatedAt: new Date(),
+    };
+    if (Array.isArray(questions))
+        update.questions = questions;
+    await QuestionTemplate.updateOne({_id: id}, update);
 
     res.json(success());
 }));
@@ -47,9 +49,8 @@ router.post('/page', ah(async (req, res) => {
     if (typeof name !== 'string') name = '';
     // 模板只能查自己的
     let {token: tokenId} = req.cookies;
-    const token = await Token.findById(tokenId);
-    assert.ok(token, '未登录');
-    assert.ok(await Account.exists({_id: token.accountId}), '账号不存在');
+
+    const token = await getToken(req);
 
     // 模糊查询正则表达式
     let regex = new RegExp(`^[\\s\\S]*${name}[\\s\\S]*$`);
@@ -73,5 +74,18 @@ router.post('/remove', ah(async (req, res) => {
     await QuestionTemplate.deleteMany({_id: {$in: ids}});
     res.json(success());
 }));
+
+
+// 通过id查询
+router.post('/getById', ah(async (req, res) => {
+    let {id} = req.body;
+    assert.ok(id, 'id不存在');
+
+    const qt = await QuestionTemplate.findById(id);
+    assert.ok(qt, '问卷未找到');
+
+    res.json(success(qt));
+}));
+
 
 module.exports = router;
