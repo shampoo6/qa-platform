@@ -14,6 +14,8 @@ const schema = new Schema({
     name: {type: String, index: true}, // 问卷名称
     accountId: {type: String, index: true}, // 发布者id
     questions: {type: Array, index: true, default: []}, // 问题集
+    // 问卷名 + 出题人id    规定同一个人不能创建两个同名的问卷
+    nameAndAccountId: {type: String, index: true, unique: true},
     createdAt: {type: Date, index: true, default: new Date()},
     updatedAt: {type: Date, index: true, default: new Date()}
 });

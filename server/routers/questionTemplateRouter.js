@@ -11,16 +11,14 @@ const PublishQuestion = require('../models/publishQuestions.js');
 // 添加模板
 router.post('/add', ah(async (req, res) => {
     let {name} = req.body;
-    let {token: tokenId} = req.cookies;
-
     const token = await getToken(req, res);
 
     let qt = new QuestionTemplate({
         name,
-        accountId: token.accountId
+        accountId: token.accountId,
+        nameAndAccountId: name + token.accountId
     });
     await qt.save();
-
     res.json(success(qt._id));
 }));
 
