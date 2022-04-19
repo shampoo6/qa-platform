@@ -199,7 +199,7 @@ function edit(id) {
 
     <!-- 表单模态 -->
     <a-modal :afterClose="afterModalClose" v-model:visible="visible"
-             :title="formData.id? editTitle: addTitle" @ok="handleOk"
+             :title="formData._id? editTitle: addTitle" @ok="handleOk"
              cancel-text="取消"
              ok-text="确定"
              :confirm-loading="confirmLoading"

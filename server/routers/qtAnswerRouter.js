@@ -19,7 +19,7 @@ router.post('/start', ah(async (req, res) => {
     // 获取问卷信息
     const questionTemplate = await QuestionTemplate.findById(publishQuestion.qtId);
     // 获取答题人信息
-    const account = await getCurrentAccount(req);
+    const account = await getCurrentAccount(req, res);
 
     // 过滤题目 删除答案
     questionTemplate.questions.forEach(question => {
@@ -60,7 +60,7 @@ router.post('/submit', ah(async (req, res) => {
     const qtAnswer = await QtAnswer.findById(id);
     assert.ok(qtAnswer, '未找到卷子');
     assert.ok(!qtAnswer.done, '问卷不能重复提交');
-    const token = await getToken(req);
+    const token = await getToken(req, res);
     assert.ok(qtAnswer.accountId === token.accountId, '不能提交不是自己的卷子');
 
 
@@ -128,7 +128,7 @@ router.post('/page', ah(async (req, res) => {
     if (typeof size !== 'number') size = 5;
     if (typeof name !== 'string') name = '';
 
-    const token = await getToken(req);
+    const token = await getToken(req, res);
     let regex = new RegExp(`^[\\s\\S]*${name}[\\s\\S]*$`);
     let query = {accountId: token.accountId, name: regex};
     let list = await QtAnswer.find(query).limit(size).skip((page - 1) * size).sort({updatedAt: -1});

@@ -10,6 +10,7 @@ const {success} = require('../utils/responseUtils.js');
 const Key = require('../models/keys.js');
 const Account = require('../models/accounts.js');
 const Token = require('../models/tokens.js');
+const {getToken, getCurrentAccount} = require('../utils/cookieUtils');
 
 // 注册
 router.post('/signUp', ah(async (req, res) => {
@@ -111,39 +112,16 @@ router.post('/signIn', ah(async (req, res) => {
 
 // 登出
 router.post('/signOut', ah(async (req, res) => {
-    let {token: tokenId} = req.cookies;
-    assert.ok(tokenId, '未登录');
-    const t = await Token.findById(tokenId);
-    assert.ok(t, '未登录');
-    // 判断超时
-    if (moment().isAfter(moment(t.expired))) {
-        // 超时处理
-        res.cookie('token', null, {maxAge: 0});
-        res.json(success());
-    }
-
+    const token = await getToken(req, res);
     // 删除
-    await Token.findByIdAndDelete(t._id);
+    await Token.findByIdAndDelete(token._id);
     res.cookie('token', null, {maxAge: 0});
     res.json(success());
 }));
 
 // 获取账号信息
 router.post('/info', ah(async (req, res) => {
-    let {token: tokenId} = req.cookies;
-    assert.ok(tokenId, '未登录');
-    const t = await Token.findById(tokenId);
-    assert.ok(t, '未登录');
-    // 判断超时
-    if (moment().isAfter(moment(t.expired))) {
-        // 超时处理
-        res.cookie('token', null, {maxAge: 0});
-        res.json(success());
-    }
-
-    // 查找账号信息
-    let account = await Account.findById(t.accountId);
-    assert.ok(account, '账号不存在');
+    const account = await getCurrentAccount(req, res)
     res.json(success({nickname: account.nickname}));
 }));
 

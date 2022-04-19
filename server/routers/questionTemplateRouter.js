@@ -13,7 +13,7 @@ router.post('/add', ah(async (req, res) => {
     let {name} = req.body;
     let {token: tokenId} = req.cookies;
 
-    const token = await getToken(req);
+    const token = await getToken(req, res);
 
     let qt = new QuestionTemplate({
         name,
@@ -29,7 +29,7 @@ router.post('/update', ah(async (req, res) => {
     let {id, name, questions} = req.body;
     let {token: tokenId} = req.cookies;
 
-    const token = await getToken(req);
+    const token = await getToken(req, res);
 
     const update = {
         name,
@@ -50,7 +50,7 @@ router.post('/page', ah(async (req, res) => {
     // 模板只能查自己的
     let {token: tokenId} = req.cookies;
 
-    const token = await getToken(req);
+    const token = await getToken(req, res);
 
     // 模糊查询正则表达式
     let regex = new RegExp(`^[\\s\\S]*${name}[\\s\\S]*$`);

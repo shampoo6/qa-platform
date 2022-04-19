@@ -14,7 +14,7 @@ router.post('/publish', ah(async (req, res) => {
     assert.ok(id, 'id不存在');
 
     // 获取发布人信息
-    const account = await getCurrentAccount(req);
+    const account = await getCurrentAccount(req, res);
 
     // 获取问卷信息
     const qt = await QuestionTemplate.findById(id);
@@ -37,7 +37,7 @@ router.post('/publish', ah(async (req, res) => {
 // 已发布列表
 router.post('/list', ah(async (req, res) => {
     // 获取发布人信息
-    const token = await getToken(req);
+    const token = await getToken(req, res);
     const r = await PublishQuestion.find({accountId: token.accountId}).sort({updatedAt: -1});
     res.json(success(r));
 }));
@@ -46,7 +46,7 @@ router.post('/list', ah(async (req, res) => {
 // 关闭已发布的问卷
 router.post('/close', ah(async (req, res) => {
     let {id} = req.body;
-    const token = await getToken(req);
+    const token = await getToken(req, res);
     // 只允许关闭自己发布的问卷
     await PublishQuestion.deleteOne({_id: id, accountId: token.accountId});
     res.json(success());

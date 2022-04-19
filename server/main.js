@@ -1,4 +1,5 @@
 const path = require('path');
+const {db: dbConfig} = require('./config.js');
 const mongoose = require('mongoose');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -37,7 +38,7 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
     console.log(`server start on: http://127.0.0.1:${port}`);
-    mongoose.connect('mongodb://admin:111111@192.168.3.100:27017/qa-db');
+    mongoose.connect(`mongodb://${dbConfig.account}:${dbConfig.pwd}@${dbConfig.ip}:${dbConfig.port}/${dbConfig.name}`);
     const db = mongoose.connection;
     db.once('open', () => {
         console.log('数据库已连接');
