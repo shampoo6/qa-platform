@@ -60,7 +60,7 @@ function submit() {
         </a-descriptions-item>
       </a-descriptions>
     </a-card>
-    <a-card v-show="qtAnswer && Array.isArray(qtAnswer.questions) && qtAnswer.questions.length > 0">
+    <a-card id="qaPageQuestions" v-show="qtAnswer && Array.isArray(qtAnswer.questions) && qtAnswer.questions.length > 0">
       <a-form layout="vertical" :model="answers">
         <a-form-item v-for="(question, i) in qtAnswer.questions" :key="i">
           <template #label>
@@ -85,7 +85,7 @@ function submit() {
 </template>
 
 <style>
-.ant-form-item-label > label {
+#qaPageQuestions .ant-form-item-label > label {
   font-weight: bolder !important;
 }
 </style>
