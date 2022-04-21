@@ -51,7 +51,7 @@ const loading = ref(false);
 async function page() {
   loading.value = true;
   try {
-    let r = await qtAnswerApi.page(pager.current, pager.pageSize, name);
+    let r = await qtAnswerApi.page(pager.current, pager.pageSize, name.value);
     tableData.value = r.list;
     pager.total = r.total;
   } finally {

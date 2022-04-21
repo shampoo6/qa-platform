@@ -47,7 +47,7 @@ function submit() {
   <div>
     <a-card>
       <a-descriptions :title="'问卷名: ' + qtAnswer.name">
-        <a-descriptions-item label="出题人">{{ qtAnswer.nickname }}</a-descriptions-item>
+        <a-descriptions-item label="答题人">{{ qtAnswer.nickname }}</a-descriptions-item>
         <a-descriptions-item label="总分">{{ total }}</a-descriptions-item>
         <a-descriptions-item label="是否已交卷">{{ qtAnswer.done ? '已交卷' : '未交卷' }}</a-descriptions-item>
         <a-descriptions-item label="得分">{{ qtAnswer.score }}</a-descriptions-item>
